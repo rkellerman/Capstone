@@ -18,18 +18,18 @@ import cv2
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 warnings.filterwarnings("ignore")
 
-train_dir = "./input/train"
-train_list = os.listdir(train_dir)
-records = []
+# train_dir = "./input/train"
+# train_list = os.listdir(train_dir)
+# records = []
 
-for category in train_list:
-	img_list = os.listdir(train_dir + "/" + category)
-	for img in img_list:
-		records.append((img, category))
+# for category in train_list:
+# 	img_list = os.listdir(train_dir + "/" + category)
+# 	for img in img_list:
+# 		records.append((img, category))
 
 
 # print(records[0])
-df_train = pd.DataFrame.from_records(records, columns = ['image', 'category'])
+# df_train = pd.DataFrame.from_records(records, columns = ['image', 'category'])
 
 # print(df_train.head())
 
@@ -124,7 +124,7 @@ for st in images:
 	print(st)
 	print(prediction[0])
 
-print(train_list)
+# print(train_list)
 
 
 
