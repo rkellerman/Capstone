@@ -1,5 +1,25 @@
+# Arduino import statements
 from nanpy import (ArduinoApi, SerialManager)
 from time import sleep
+
+# Deep Learning import statements
+import os
+from PIL import Image, ImageFile
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+import keras
+from keras.models import Sequential,Input,Model,load_model
+from keras.layers import Dense,Dropout,Flatten
+from keras.layers import Conv2D,MaxPooling2D
+from keras.layers.normalization import BatchNormalization
+from keras.layers.advanced_activations import LeakyReLU
+import scipy.misc
+from skimage import transform
+import warnings
+import cv2
+from picamera import PiCamera
 
 ###  BEGIN GLOBAL ARDUINO DEFINITIONS  ###
 
@@ -21,7 +41,16 @@ in4 = 6
 ENA = 10
 ENB = 5
 
-### END GLOBAL  ARDUINO PIN DEFINITIONS  ###
+### END GLOBAL ARDUINO PIN DEFINITIONS  ###
+
+### BEGIN GLOBAL DEEP LEARNING DEFINITIONS  ###
+
+camera = PiCamera()
+dir_path = os.path.dirname(os.path.abspath(__file__))
+img_path = os.path.join(dir_path, "input/runtime/image.jpg")
+cnn = load_model('cnn.h5')
+
+### END GLOBAL DEEP LEARNING DEFINITIONS  ##
 
 ### BEGIN ARDUINO HELPER FUNCTIONS
 
@@ -53,6 +82,13 @@ def mBack():
     
     return
 
+def stopCar():
+    
+    a.digitalWrite(ENA, a.LOW)
+    a.digitalWrite(ENB, a.LOW)
+    
+    return;
+
 def ArduinoSetup():
 
     a.pinMode(in1, a.OUTPUT)
@@ -69,30 +105,46 @@ def ArduinoSetup():
 
 ###  END ARDUINO HELPER FUNCTIONS  ###
 
-
-def stopCar():
-	
-	return;
 def moveCarForward(amount):
-
+    
+    mForward()
+    sleep(amount)
+    stopCar()
+        
 	return;
 
 def takePicture():
-	stopCar();
-	# takePicture
-	picture = []; # fix this crap
-	return picture;
+    
+	stopCar()
+    
+    # take picture
+    camera.start_preview()
+    sleep(1)
+    camera.capture(img_path)
+    camera.stop_preview()
+    
+	# load picture
+	im = Image.open(img_path).convert("RGB")
+    im.load();
+    im = np.asarray(im, dtype = "float32")
+    im = im/255
+    im = transform.resize(im, (49, 49));
+    check = np.array([im])
+        
+	return check;
 
 
 def classifyWeedOrCrop(pic):
 
 	# ryan, dude, really?
-	return
+	return True
 
 def classifyCrop(pic):
+    
+    prediction = cnn.predict(pic)
 
 	# ankeet get this shite done mate
-	return
+	return prediction[0]
 
 def process():
 	pic = takePicture();
@@ -110,7 +162,7 @@ def main():
     ArduinoSetup()
 
 	# todo: run for ~20 seconds
-	amount = 10; # inches
+	amount = 3; # inches
 	while True:
 		moveCarForward(amount);
 		process();
