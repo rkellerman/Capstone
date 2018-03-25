@@ -26,10 +26,10 @@ from picamera import PiCamera
 # define connections and arduino object variables
 
 try:
-    connection = SerialManager()
-    a = ArduinoApi(connection = connection)
+	connection = SerialManager()
+	a = ArduinoApi(connection = connection)
 except:
-    print "Failed to connect to Arduino"
+	print "Failed to connect to Arduino"
 
 # define logic control output pins
 in1 = 9
@@ -55,82 +55,82 @@ cnn = load_model('cnn.h5')
 ### BEGIN ARDUINO HELPER FUNCTIONS
 
 def mForward():
-    
-    a.digitalWrite(ENA, a.HIGH)
-    a.digitalWrite(ENB, a.HIGH)
-    
-    a.digitalWrite(in1, a.LOW)
-    a.digitalWrite(in2, a.HIGH)
-    a.digitalWrite(in3, a.LOW)
-    a.digitalWrite(in4, a.HIGH)
-    
-    print "Car moving forward\n"
-    
-    return
+	
+	a.digitalWrite(ENA, a.HIGH)
+	a.digitalWrite(ENB, a.HIGH)
+	
+	a.digitalWrite(in1, a.LOW)
+	a.digitalWrite(in2, a.HIGH)
+	a.digitalWrite(in3, a.LOW)
+	a.digitalWrite(in4, a.HIGH)
+	
+	print "Car moving forward\n"
+	
+	return
 
 def mBack():
 
-    a.digitalWrite(ENA, a.HIGH)
-    a.digitalWrite(ENB, a.HIGH)
-    
-    a.digitalWrite(in1, a.HIGH)
-    a.digitalWrite(in2, a.LOW)
-    a.digitalWrite(in3, a.HIGH)
-    a.digitalWrite(in4, a.LOW)
+	a.digitalWrite(ENA, a.HIGH)
+	a.digitalWrite(ENB, a.HIGH)
+	
+	a.digitalWrite(in1, a.HIGH)
+	a.digitalWrite(in2, a.LOW)
+	a.digitalWrite(in3, a.HIGH)
+	a.digitalWrite(in4, a.LOW)
 
-    print "Car moving backward\n"
-    
-    return
+	print "Car moving backward\n"
+	
+	return
 
 def stopCar():
-    
-    a.digitalWrite(ENA, a.LOW)
-    a.digitalWrite(ENB, a.LOW)
-    
-    return;
+	
+	a.digitalWrite(ENA, a.LOW)
+	a.digitalWrite(ENB, a.LOW)
+	
+	return;
 
 def ArduinoSetup():
 
-    a.pinMode(in1, a.OUTPUT)
-    a.pinMode(in2, a.OUTPUT)
-    a.pinMode(in3, a.OUTPUT)
-    a.pinMode(in4, a.OUTPUT)
-    a.pinMode(ENA, a.OUTPUT)
-    a.pinMode(ENB, a.OUTPUT)
-    
-    print "Arduino pin setup complete\n"
+	a.pinMode(in1, a.OUTPUT)
+	a.pinMode(in2, a.OUTPUT)
+	a.pinMode(in3, a.OUTPUT)
+	a.pinMode(in4, a.OUTPUT)
+	a.pinMode(ENA, a.OUTPUT)
+	a.pinMode(ENB, a.OUTPUT)
+	
+	print "Arduino pin setup complete\n"
 
-    return
+	return
 
 
 ###  END ARDUINO HELPER FUNCTIONS  ###
 
 def moveCarForward(amount):
-    
-    mForward()
-    sleep(amount)
-    stopCar()
-        
+	
+	mForward()
+	sleep(amount)
+	stopCar()
+		
 	return;
 
 def takePicture():
-    
+	
 	stopCar()
-    
-    # take picture
-    camera.start_preview()
-    sleep(1)
-    camera.capture(img_path)
-    camera.stop_preview()
-    
+	
+	# take picture
+	camera.start_preview()
+	sleep(1)
+	camera.capture(img_path)
+	camera.stop_preview()
+	
 	# load picture
 	im = Image.open(img_path).convert("RGB")
-    im.load();
-    im = np.asarray(im, dtype = "float32")
-    im = im/255
-    im = transform.resize(im, (49, 49));
-    check = np.array([im])
-        
+	im.load();
+	im = np.asarray(im, dtype = "float32")
+	im = im/255
+	im = transform.resize(im, (49, 49));
+	check = np.array([im])
+		
 	return check;
 
 
@@ -140,8 +140,8 @@ def classifyWeedOrCrop(pic):
 	return True
 
 def classifyCrop(pic):
-    
-    prediction = cnn.predict(pic)
+	
+	prediction = cnn.predict(pic)
 
 	# ankeet get this shite done mate
 	return prediction[0]
@@ -158,8 +158,8 @@ def process():
 
 
 def main():
-    
-    ArduinoSetup()
+	
+	ArduinoSetup()
 
 	# todo: run for ~20 seconds
 	amount = 3; # inches
