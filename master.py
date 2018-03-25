@@ -8,7 +8,7 @@ from PIL import Image, ImageFile
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
+# from sklearn.model_selection import train_test_split
 import keras
 from keras.models import Sequential,Input,Model,load_model
 from keras.layers import Dense,Dropout,Flatten
