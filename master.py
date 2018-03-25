@@ -30,6 +30,7 @@ try:
 	a = ArduinoApi(connection = connection)
 except:
 	print "Failed to connect to Arduino"
+	exit()
 
 # define logic control output pins
 in1 = 9
