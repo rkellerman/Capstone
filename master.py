@@ -138,7 +138,7 @@ def takePicture():
 def classifyWeedOrCrop(pic):
 
 	# ryan, dude, really?
-	return True
+	return "weed"
 
 def classifyCrop(pic):
 	
@@ -163,7 +163,7 @@ def main():
 	ArduinoSetup()
 
 	# todo: run for ~20 seconds
-	amount = 3; # inches
+	amount = 3; # seconds
 	while True:
 		moveCarForward(amount);
 		process();
