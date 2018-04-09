@@ -24,10 +24,11 @@ from picamera import PiCamera
 ###  BEGIN GLOBAL ARDUINO DEFINITIONS  ###
 
 # define connections and arduino object variables
-
+print "Attempting connection to arduino"
 try:
 	connection = SerialManager()
 	a = ArduinoApi(connection = connection)
+	print "Connection to arduino successful"
 except:
 	print "Failed to connect to Arduino"
 	exit()
@@ -61,8 +62,8 @@ def mForward():
 	a.digitalWrite(ENB, a.HIGH)
 	
 	a.digitalWrite(in1, a.LOW)
-	a.digitalWrite(in2, a.HIGH)
-	a.digitalWrite(in3, a.LOW)
+	a.digitalWrite(in2, a.LOW)
+	a.digitalWrite(in3, a.HIGH)
 	a.digitalWrite(in4, a.HIGH)
 	
 	print "Car moving forward\n"
@@ -82,6 +83,42 @@ def mBack():
 	print "Car moving backward\n"
 	
 	return
+
+def cycle():
+	a.digitalWrite(ENA, a.HIGH)
+        a.digitalWrite(ENB, a.HIGH)	
+
+	for i in range(2):
+		if i == 0:
+			a.digitalWrite(in1, a.LOW)
+		else:
+			a.digitalWrite(in1, a.HIGH)
+	
+		for j in range(2):
+			if j == 0:
+				a.digitalWrite(in2, a.LOW)
+			else:
+				a.digitalWrite(in2, a.HIGH)
+
+			for k in range(2):
+				if k == 0:
+					a.digitalWrite(in3, a.LOW)
+				else:
+					a.digitalWrite(in3, a.HIGH)
+
+				for l in range(2):
+					if l == 0:
+						a.digitalWrite(in4, a.LOW)
+					else:
+						a.digitalWrite(in4, a.HIGH)
+
+					print i
+					print j
+					print k
+					print l
+					print '\n'	
+					sleep(3)
+
 
 def stopCar():
 	
@@ -138,7 +175,7 @@ def takePicture():
 def classifyWeedOrCrop(pic):
 
 	# ryan, dude, really?
-	return True
+	return "crop"
 
 def classifyCrop(pic):
 	
@@ -157,10 +194,16 @@ def process():
 		cropType = classifyCrop(pic);
 		print cropType;
 
+		print "\n"
+		print "***  daisy  ***\n"
+
 
 def main():
 	
 	ArduinoSetup()
+	cycle()
+
+
 
 	# todo: run for ~20 seconds
 	amount = 3; # inches
