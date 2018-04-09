@@ -175,7 +175,11 @@ def takePicture():
 def classifyWeedOrCrop(pic):
 
 	# ryan, dude, really?
+<<<<<<< HEAD
 	return "crop"
+=======
+	return "weed"
+>>>>>>> ef6dbaeacbfe7649a70b090a69f19c6d020ad553
 
 def classifyCrop(pic):
 	
@@ -206,7 +210,7 @@ def main():
 
 
 	# todo: run for ~20 seconds
-	amount = 3; # inches
+	amount = 3; # seconds
 	while True:
 		moveCarForward(amount);
 		process();
