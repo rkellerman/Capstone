@@ -179,7 +179,6 @@ def classifyCrop(pic):
 	
 	prediction = cnn.predict(pic)
 
-	# ankeet get this shite done mate
 	return prediction[0]
 
 def process():
@@ -200,7 +199,6 @@ def main():
 
 
 
-	# todo: run for ~20 seconds
 	amount = 3; # seconds
 	while True:
 		moveCarForward(amount);
