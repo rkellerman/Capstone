@@ -173,13 +173,7 @@ def takePicture():
 
 
 def classifyWeedOrCrop(pic):
-
-	# ryan, dude, really?
-<<<<<<< HEAD
 	return "crop"
-=======
-	return "weed"
->>>>>>> ef6dbaeacbfe7649a70b090a69f19c6d020ad553
 
 def classifyCrop(pic):
 	
@@ -197,9 +191,6 @@ def process():
 		print "crop"
 		cropType = classifyCrop(pic);
 		print cropType;
-
-		print "\n"
-		print "***  daisy  ***\n"
 
 
 def main():
